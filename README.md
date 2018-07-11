@@ -1,6 +1,6 @@
 # $how Me The Money
 
-# Kahu 2018 Cohort Group Project
+# Week 7 Group Project
 
 Meetings are expensive, but sometimes we forget how expensive they are and feel the need to talk for too long about topics that are unimportant for the meeting purpose.
 
@@ -30,6 +30,7 @@ As a user:
   * I want to be able to state my yearly salary rather than hourly rate as an option on register
   * I want to be able to view all meetings that I am an attenee for, and I want information about my meetings to not be visible to all users of the app.
   * I want to create a group of regular attendees for my meeting group to make setting up my meeting easier.
+  * I want to be able to write notes or summaries for meetings upon saving them.
 
   ---
 
@@ -52,6 +53,29 @@ As a user:
   | currentMeeting | Track meeting progress such as current cost and current duration |
   | meetings | store the list of meetings the user has attended in the past |
   | users | store the list of users who can attend meetings |
+
+ ## Actions
+
+ ### meetings
+
+ | type | data | purpose |
+ | --- | --- | --- |
+ | RECEIVE_MEETINGS | meetings | retreive meetings from the db and store in redux |
+ | ADD_MEETING | meeting | Add a single meeting to the history after it is created |
+
+ ### users
+ | type | data | purpose |
+ | --- | --- | --- |
+ | RECEIVE_USERS | users | retreive the users from the server |
+
+ ### currentMeeting
+  | type | data | purpose |
+| --- | --- | --- |
+| START_MEETING | attendees ([]), meeting_name | a meeting has started, set initial meeting state |
+| END_MEETING | null | Set meeting in progress flag to false |  
+| TICK_ONE_SECOND | null | Increase running total by 1s worth of $ |
+| RESET_MEETING | null | Revert to initial state |
+
 
 
 ## API (Client - Server)
@@ -96,22 +120,32 @@ As a user:
  | meeting_id | Integer |
 
  ---
- 
 
 ## Setup
 
 Run the following commands in your terminal:
 
 ```sh
-npm install (or yarn install)
-knex migrate:latest
-knex seed:run
+yarn install
+yarn knex migrate:latest
+yarn knex seed:run
+mv .env_example .env
+```
+
+To run in development:
+```sh
+yarn dev
+ - or -
+npm run dev
 
 ```
 
-  `npm run dev` || `yarn dev` for bundling, watch and nodemon
-
-  `npm start` only runs server (setup for heroku)
+To run in production:
+```sh
+yarn start
+  - or -
+npm start
+```
 
 
 ## Heroku!!!
@@ -134,13 +168,33 @@ Check that pg has been added by running `heroku addons` to ensure the postgresql
 
 I have created several npm scripts that will be useful for deploying your app to heroku easily.
 
-`npm run h:deploy` will push your local master branch to your heroku app
+To push your local master branch to your heroku app:
+```sh
+yarn h:deploy
+  - or -
+npm run h:deploy
+```
 
-`npm run h:migrate` will run your knex migrations on your deployed heroku app
+Run heroku migrations:
+```sh
+yarn h:migrate
+  - or -
+npm run h:migrate
+```
 
-`npm run h:seed` will run your seeds on your deployed app
+Run heroku seeds:
+```sh
+yarn h:seed
+  - or -
+npm run h:seed
+```
 
-If ever you need to rollback, you can also just use `npm run h:rollback`
+If ever you need to rollback, you can also:
+```sh
+yarn h:rollback
+  - or -
+npm run h:rollback
+```
 
 
 ### Ta-Da!
